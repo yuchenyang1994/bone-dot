@@ -7,4 +7,4 @@ requires-python = ">=3.10"
 dependencies = ["fake-bpy-module>=20250414"]
 
 [tool.pyright]
-typeCheckingMode = "basic"
+typeCheckingMode = "off"

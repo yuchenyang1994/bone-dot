@@ -1,6 +1,6 @@
 import bpy
-from bone_dot.panel import viewport_panel
-from bone_dot.operator import view2d_operator
+from bone_dot.panel import viewport_panel, sprite_panel
+from bone_dot.operator import view2d_operator, sprite_operator
 
 bl_info = {
     "name": "BoneDot",
@@ -16,8 +16,11 @@ bl_info = {
 
 
 classes = (
-    viewport_panel.ViewPortPanel,
-    view2d_operator.View2DSetFrontView,
+    viewport_panel.Bonedot_PT_ViewPortPanel,
+    view2d_operator.Bonedot_OT_View2DSetBottomView,
+    # import sprite
+    sprite_panel.Bonedot_PT_ImportSprite,
+    sprite_operator.Bonedot_OT_ImportSprite,
 )
 
 
