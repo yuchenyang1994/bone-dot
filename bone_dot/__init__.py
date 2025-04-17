@@ -17,10 +17,12 @@ bl_info = {
 
 classes = (
     viewport_panel.Bonedot_PT_ViewPortPanel,
-    view2d_operator.Bonedot_OT_View2DSetBottomView,
+    view2d_operator.Bonedot_OT_SetView2D,
     # import sprite
     sprite_panel.Bonedot_PT_ImportSprite,
-    sprite_operator.Bonedot_OT_ImportSprite,
+    sprite_operator.Bonedot_OT_ImportSprites,
+    sprite_operator.Bonedot_OT_CreateMaterialGroup,
+    sprite_operator.Bonedot_OT_ImportSingleSprite,
 )
 
 

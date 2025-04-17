@@ -2,7 +2,7 @@ import bpy
 from bpy.types import Context
 
 
-class Bonedot_OT_View2DSetBottomView(bpy.types.Operator):
+class Bonedot_OT_SetView2D(bpy.types.Operator):
     bl_idname = "bonedot.set_2d_view"
     bl_label = "2D View"
 
@@ -12,7 +12,7 @@ class Bonedot_OT_View2DSetBottomView(bpy.types.Operator):
                 for region in area.regions:
                     if region.type == "WINDOW":
                         bpy.ops.view3d.view_axis(
-                            type="BOTTOM", align_active=False, relative=False
+                            type="FRONT", align_active=False, relative=False
                         )
                         break
         return {"FINISHED"}

@@ -17,8 +17,8 @@ from bpy_extras.io_utils import ImportHelper
 
 class Bonedot_OT_CreateMaterialGroup(bpy.types.Operator):
     bl_idname = "bonedot.create_material_group"
-    bl_label = "Create COA Tools Node Group"
-    bl_description = "Creates the default COA Tools Node Group"
+    bl_label = "Create Bonedot Tools Node Group"
+    bl_description = "Creates the default Bonedot Node Group"
     bl_options = {"REGISTER"}
 
     input_sockets = [
@@ -83,7 +83,7 @@ class Bonedot_OT_CreateMaterialGroup(bpy.types.Operator):
             elif socket.name not in outputs and socket.in_out == "OUTPUT":
                 group_tree.interface.remove(socket)
 
-    def create_coa_material_group(self):
+    def create_bonedot_material_group(self):
         group_tree = None
 
         # cleanup group if already existent
@@ -150,7 +150,7 @@ class Bonedot_OT_CreateMaterialGroup(bpy.types.Operator):
         return group_tree
 
     def execute(self, context: Context):
-        self.create_coa_material_group()
+        self.create_bonedot_material_group()
         return {"FINISHED"}
 
 
@@ -167,7 +167,6 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
     scale: FloatProperty(name="Sprite Scale", default=0.01)
     offset: FloatVectorProperty(default=Vector((0, 0, 0)))
     tilesize: FloatVectorProperty(default=Vector((1, 1)), size=2)
-    parent: StringProperty(name="Parent Object", default="None")
 
     def execute(self, context: Context):
         if os.path.exists(self.path):
@@ -189,7 +188,7 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
                 img = data.images.load(self.path)
             obj = self.create_mesh(
                 context,
-                name=image.name,
+                name=img.name,
                 width=img.size[0],
                 height=img.size[1],
                 pos=self.pos,
@@ -245,7 +244,8 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
     ):
         me = bpy.data.meshes.new(name)
         obj = bpy.data.objects.new(name, me)
-        context.scene.view_layers[0].objects.active = obj
+        bpy.context.collection.objects.link(obj)
+        bpy.context.view_layer.objects.active = obj
         obj.select_set(True)
 
         self.create_verts(width, height, pos, me, tag_hide=False)
@@ -264,9 +264,7 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
             Vector((pos[0], pos[1], -pos[2])) * self.scale
             + Vector((self.offset[0], self.offset[1], self.offset[2])) * self.scale
         )
-        obj.bonedot["sprite"] = True
-        if self.parent != "None":
-            obj.parent = bpy.data.objects[self.parent]
+        obj["sprite"] = True
         return obj
 
     def create_material(self, context, mesh, name="Sprite"):
@@ -334,7 +332,6 @@ class Bonedot_OT_ImportSprites(bpy.types.Operator, ImportHelper):
     replace: BoolProperty(name="Update Existing", default=True)
 
     def execute(self, context: Context):
-        sprite_object = functions.get_sprite_object(context.active_object)
         ext = os.path.splitext(self.filepath)[1]
         folder = os.path.dirname(self.filepath)
         self.set_shading(context)
@@ -343,9 +340,7 @@ class Bonedot_OT_ImportSprites(bpy.types.Operator, ImportHelper):
         for i in self.files:
             filepath = os.path.join(folder, i.name)
             if i.name not in bpy.data.objects:
-                bpy.ops.bonedot.import_sprite(
-                    path=filepath, parent=sprite_object.name, scale=1
-                )
+                bpy.ops.bonedot.import_sprite(path=filepath)
         return {"FINISHED"}
 
     def set_shading(self, context: Context):

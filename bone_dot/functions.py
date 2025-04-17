@@ -7,7 +7,7 @@ def get_sprite_object(obj):
     global last_sprite_object
 
     if obj is not None:
-        if "sprite_object" in obj.coa_tools:
+        if "sprite_object" in obj.bonedot:
             last_sprite_object = obj.name
             return obj
         elif obj.parent is not None:
