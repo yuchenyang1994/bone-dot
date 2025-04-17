@@ -16,13 +16,11 @@ bl_info = {
 classes = ()
 
 
-def regiseter():
-    print("注册插件", bl_info["name"])
+def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
 
-def unrigister():
-    print("注销插件", bl_info["name"])
+def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
