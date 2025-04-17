@@ -1,4 +1,6 @@
 import bpy
+from bone_dot.panel import viewport_panel
+from bone_dot.operator import view2d_operator
 
 bl_info = {
     "name": "BoneDot",
@@ -13,7 +15,10 @@ bl_info = {
 }
 
 
-classes = ()
+classes = (
+    viewport_panel.ViewPortPanel,
+    view2d_operator.View2DSetFrontView,
+)
 
 
 def register():
