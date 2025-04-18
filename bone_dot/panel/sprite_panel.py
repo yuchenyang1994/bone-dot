@@ -18,3 +18,7 @@ class Bonedot_PT_ImportSprite(bpy.types.Panel):
         )
         row2 = layout.row()
         row2.operator("bonedot.cutoff_mesh", text="Cutoff Mesh", icon="MESH_PLANE")
+        row3 = layout.row()
+        row3.operator(
+            "bonedot.tris_to_quads", text="Tris to Quads", icon="MOD_TRIANGULATE"
+        )

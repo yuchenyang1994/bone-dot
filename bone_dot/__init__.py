@@ -31,7 +31,7 @@ def install_wheels():
 
 def get_classes():
     from bone_dot.panel import viewport_panel, sprite_panel
-    from bone_dot.operator import view2d_operator, sprite_operator, mesh_poerator
+    from bone_dot.operator import view2d_operator, sprite_operator, mesh_operator
 
     classes = (
         viewport_panel.Bonedot_PT_ViewPortPanel,
@@ -41,7 +41,8 @@ def get_classes():
         sprite_operator.Bonedot_OT_ImportSprites,
         sprite_operator.Bonedot_OT_CreateMaterialGroup,
         sprite_operator.Bonedot_OT_ImportSingleSprite,
-        mesh_poerator.Bonedot_OT_CutoffMesh,
+        mesh_operator.Bonedot_OT_CutoffMesh,
+        mesh_operator.Bonedot_OT_TrisToQuads,
     )
     return classes
 

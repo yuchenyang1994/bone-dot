@@ -167,3 +167,23 @@ class Bonedot_OT_CutoffMesh(bpy.types.Operator):
         lx = (u - 0.5) * w * scale
         lz = (v - 0.5) * h * scale
         return Vector((lx, 0, lz))
+
+
+class Bonedot_OT_TrisToQuads(bpy.types.Operator):
+    bl_idname = "bonedot.tris_to_quads"
+    bl_label = "Tris to Quads"
+    bl_description = "Tris to Quads"
+    bl_options = {"REGISTER", "UNDO"}
+
+    def execute(self, context: Context):
+        for obj in context.selected_objects:
+            if obj.type == "MESH":
+                mesh = obj.data
+                bm = bmesh.new()
+                bm.from_mesh(mesh)
+
+                bmesh.ops.triangulate(bm, faces=bm.faces[:])
+                bm.to_mesh(mesh)
+                bm.free()
+
+        return {"FINISHED"}
