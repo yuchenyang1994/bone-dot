@@ -47,7 +47,11 @@ def get_classes():
 
 
 def register():
-    install_wheels()
+    try:
+        import PIL
+        import numpy
+    except ImportError:
+        install_wheels()
     classes = get_classes()
     for cls in classes:
         bpy.utils.register_class(cls)
