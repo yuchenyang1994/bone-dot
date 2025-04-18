@@ -1,6 +1,6 @@
 # Python-generated files
 **/__pycache__/
-bone_dot/__pycache__/
+bone_dot/lib/
 *.py[oc]
 build/
 dist/

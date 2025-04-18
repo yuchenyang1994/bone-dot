@@ -1,6 +1,18 @@
 import bpy
+
+import os
+import sys
+
+addon_dir = os.path.dirname(__file__)
+vendor_dir = os.path.join(addon_dir, "libs")
+
+if vendor_dir not in sys.path:
+    sys.path.append(vendor_dir)
+    print(vendor_dir)
+
 from bone_dot.panel import viewport_panel, sprite_panel
-from bone_dot.operator import view2d_operator, sprite_operator
+from bone_dot.operator import view2d_operator, sprite_operator, mesh_poerator
+
 
 bl_info = {
     "name": "BoneDot",
@@ -23,6 +35,7 @@ classes = (
     sprite_operator.Bonedot_OT_ImportSprites,
     sprite_operator.Bonedot_OT_CreateMaterialGroup,
     sprite_operator.Bonedot_OT_ImportSingleSprite,
+    mesh_poerator.Bonedot_OT_CutoffMesh,
 )
 
 
