@@ -259,10 +259,13 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
         mod.show_viewport = False
         mod.show_on_cage = True
         obj.data.uv_layers.new(name="UVMap")
+        bpy.ops.object.mode_set(mode="OBJECT")
+        bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
         obj.location = (
             Vector((pos[0], pos[1], -pos[2])) * self.scale
             + Vector((self.offset[0], self.offset[1], self.offset[2])) * self.scale
         )
+
         obj["sprite"] = True
         return obj
 
