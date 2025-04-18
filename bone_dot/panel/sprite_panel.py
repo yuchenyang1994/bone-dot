@@ -3,8 +3,8 @@ from bpy.types import Context
 
 
 class Bonedot_PT_ImportSprite(bpy.types.Panel):
-    bl_idname = "bonedot.import_sprite_panel"
     bl_label = "Sprite and Mesh"
+    bl_idname = "BONEDOT_PT_importsprite_panel"
     bl_options = {"HEADER_LAYOUT_EXPAND"}
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"

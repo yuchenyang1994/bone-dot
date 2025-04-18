@@ -334,11 +334,18 @@ class Bonedot_OT_ImportSprites(bpy.types.Operator, ImportHelper):
     replace: BoolProperty(name="Update Existing", default=True)
 
     def execute(self, context: Context):
-        # ext = os.path.splitext(self.filepath)[1]
         folder = os.path.dirname(self.filepath)
-
+        self.set_viewport_shading(context)
         for i in self.files:
             filepath = os.path.join(folder, i.name)
             if i.name not in bpy.data.objects:
                 bpy.ops.bonedot.import_sprite(path=filepath)
         return {"FINISHED"}
+
+    def set_viewport_shading(self, context: Context):
+        for area in bpy.context.screen.areas:
+            if area.type == "VIEW_3D":
+                for space in area.spaces:
+                    if space.type == "VIEW_3D":
+                        space.shading.type = "MATERIAL"
+                        return
