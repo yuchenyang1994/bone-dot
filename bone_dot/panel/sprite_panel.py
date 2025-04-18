@@ -12,6 +12,9 @@ class Bonedot_PT_ImportSprite(bpy.types.Panel):
 
     def draw(self, context: Context):
         layout = self.layout
-        row = layout.row()
-        row.operator("bonedot.import_sprites", text="Import Sprite", icon="FILE_FOLDER")
-        row.operator("bonedot.cutoff_mesh", text="Cutoff Mesh")
+        row1 = layout.row()
+        row1.operator(
+            "bonedot.import_sprites", text="Import Sprite", icon="FILE_FOLDER"
+        )
+        row2 = layout.row()
+        row2.operator("bonedot.cutoff_mesh", text="Cutoff Mesh", icon="MESH_PLANE")

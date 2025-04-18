@@ -1,7 +1,7 @@
 import bmesh
 import bpy
 import os
-from bpy.types import Context
+from bpy.types import Context, Event
 from PIL import Image
 import numpy as np
 from mathutils import Matrix, Vector
@@ -12,6 +12,15 @@ class Bonedot_OT_CutoffMesh(bpy.types.Operator):
     bl_label = "Cutoff Mesh"
     bl_description = "Cutoff mesh form image"
     bl_options = {"REGISTER", "UNDO"}
+
+    cut_sample_rate: bpy.props.IntProperty(name="Cut Sample Rate", default=16)
+
+    def invoke(self, context: Context, event: Event):
+        return context.window_manager.invoke_props_dialog(self)
+
+    def draw(self, context: Context):
+        layout = self.layout
+        layout.prop(self, "cut_sample_rate")
 
     def execute(self, context: Context):
         for obj in context.selected_objects:
@@ -57,7 +66,7 @@ class Bonedot_OT_CutoffMesh(bpy.types.Operator):
 
             pil_img = Image.open(filepath).convert("RGBA")
             edge_points = self.trace_alpha_contour(pil_img)
-            contour_px = edge_points[::16]
+            contour_px = edge_points[:: self.cut_sample_rate]
             cutter_obj = self.make_cutter_mesh(
                 "cut_tool", contour_px, pil_img.size, 0.01
             )
