@@ -1,7 +1,6 @@
 import bpy
 import bmesh
 from bpy.types import Context
-from bone_dot import functions
 from bpy.props import (
     CollectionProperty,
     FloatProperty,
@@ -332,20 +331,11 @@ class Bonedot_OT_ImportSprites(bpy.types.Operator, ImportHelper):
     replace: BoolProperty(name="Update Existing", default=True)
 
     def execute(self, context: Context):
-        ext = os.path.splitext(self.filepath)[1]
+        # ext = os.path.splitext(self.filepath)[1]
         folder = os.path.dirname(self.filepath)
-        self.set_shading(context)
 
-        context.scene.view_settings.view_transform = "Standard"
         for i in self.files:
             filepath = os.path.join(folder, i.name)
             if i.name not in bpy.data.objects:
                 bpy.ops.bonedot.import_sprite(path=filepath)
         return {"FINISHED"}
-
-    def set_shading(self, context: Context):
-        for area in context.screen.areas:
-            if area.type == "VIEW_3D":
-                for space in area.spaces:
-                    if space.type == "VIEW_3D":
-                        space.shading.type = "RENDERED"
