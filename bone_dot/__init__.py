@@ -3,6 +3,8 @@ import sys
 import os
 import subprocess
 
+from bpy.props import BoolProperty
+
 bl_info = {
     "name": "BoneDot",
     "author": "yuchenyang1994",
@@ -31,7 +33,12 @@ def install_wheels():
 
 def get_classes():
     from bone_dot.panel import viewport_panel, sprite_panel
-    from bone_dot.operator import view2d_operator, sprite_operator, mesh_operator
+    from bone_dot.operator import (
+        view2d_operator,
+        sprite_operator,
+        mesh_operator,
+        uv_operator,
+    )
 
     classes = (
         viewport_panel.Bonedot_PT_ViewPortPanel,
@@ -43,6 +50,7 @@ def get_classes():
         sprite_operator.Bonedot_OT_ImportSingleSprite,
         mesh_operator.Bonedot_OT_CutoffMesh,
         mesh_operator.Bonedot_OT_TrisToQuads,
+        uv_operator.Bonedot_OT_ModalUVSyncOperator,
     )
     return classes
 
@@ -53,6 +61,11 @@ def register():
         import numpy
     except ImportError:
         install_wheels()
+    bpy.types.Scene.realtime_uv_sync = BoolProperty(
+        name="Realtime UV Sync",
+        description="Enable realtime UV to Vertex sync",
+        default=False,
+    )
     classes = get_classes()
     for cls in classes:
         bpy.utils.register_class(cls)
@@ -62,3 +75,12 @@ def unregister():
     classes = get_classes()
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
+    del bpy.types.Scene.realtime_uv_sync
+
+
+if __name__ == "__main__":
+    try:
+        unregister()
+    except Exception as e:
+        print("unregister failed!", e)
+    register()

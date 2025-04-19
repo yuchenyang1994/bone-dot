@@ -22,3 +22,5 @@ class Bonedot_PT_ImportSprite(bpy.types.Panel):
         row3.operator(
             "bonedot.tris_to_quads", text="Tris to Quads", icon="MOD_TRIANGULATE"
         )
+        row4 = layout.row()
+        row4.operator("bonedot.modal_uv_sync", text="Start UV Sync")
