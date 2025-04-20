@@ -68,7 +68,7 @@ class Bonedot_OT_CutoffMesh(bpy.types.Operator):
             edge_points = self.trace_alpha_contour(pil_img)
             contour_px = edge_points[:: self.cut_sample_rate]
             cutter_obj = self.make_cutter_mesh(
-                "cut_tool", contour_px, pil_img.size, 0.01
+                "cut_tool", contour_px, pil_img.size, context.scene.bonedot_scale
             )
             self.boolean_difference(context, obj, cutter_obj)
             return {"FINISHED"}
@@ -146,7 +146,7 @@ class Bonedot_OT_CutoffMesh(bpy.types.Operator):
         target_matrix = obj.matrix_world.copy()
         cutter.matrix_world = Matrix.Identity(4)
         cutter.location = target_matrix.to_translation()
-        # 把刀具稍微抬高一点，避免 Z-fighting,但我们都是fontview，所以我们需要将y设置为-的
+        # 把刀具稍微抬高一点，避免 Z-fighting,但我们都是
         cutter.location.z -= 0.01
 
         bpy.ops.object.mode_set(mode="OBJECT")
@@ -163,10 +163,10 @@ class Bonedot_OT_CutoffMesh(bpy.types.Operator):
     def pixel_to_local(self, p, w, h, scale):
         x, y = p
         u = x / w
-        v = 1 - (y / h)
+        v = y / h
         lx = (u - 0.5) * w * scale
-        lz = (v - 0.5) * h * scale
-        return Vector((lx, 0, lz))
+        ly = (v - 0.5) * h * scale
+        return Vector((lx, ly, 0.0))
 
 
 class Bonedot_OT_TrisToQuads(bpy.types.Operator):

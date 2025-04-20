@@ -67,12 +67,20 @@ def register():
     classes = get_classes()
     for cls in classes:
         bpy.utils.register_class(cls)
+    bpy.types.Scene.bonedot_scale = bpy.props.IntProperty(
+        name="Scale",
+        description="Sprites scale when exporting and Importing",
+        default=0.01,
+        min=0.01,
+        max=8,
+    )
 
 
 def unregister():
     classes = get_classes()
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
+    del bpy.types.Scene.bonedot_scale
 
 
 if __name__ == "__main__":

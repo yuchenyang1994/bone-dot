@@ -13,6 +13,7 @@ class Bonedot_PT_ImportSprite(bpy.types.Panel):
     def draw(self, context: Context):
         layout = self.layout
         row1 = layout.row()
+        row1.prop(context.scene, "bonedot_scale")
         row1.operator(
             "bonedot.import_sprites", text="Import Sprite", icon="FILE_FOLDER"
         )

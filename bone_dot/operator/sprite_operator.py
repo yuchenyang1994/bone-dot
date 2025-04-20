@@ -192,7 +192,7 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
                 height=img.size[1],
                 pos=self.pos,
             )
-            mat = self.create_material(context, obj.data, name=img.name)
+            self.create_material(context, obj.data, name=img.name)
 
             selected_objects = []
             for obj2 in context.selected_objects:
@@ -214,10 +214,11 @@ class Bonedot_OT_ImportSingleSprite(bpy.types.Operator):
     def create_verts(self, width, height, pos, me, tag_hide=False):
         bpy.ops.object.mode_set(mode="EDIT")
         bm = bmesh.from_edit_mesh(me)
-        vert1 = bm.verts.new(Vector((0, 0, -height)) * self.scale)
-        vert2 = bm.verts.new(Vector((width, 0, -height)) * self.scale)
-        vert3 = bm.verts.new(Vector((width, 0, 0)) * self.scale)
-        vert4 = bm.verts.new(Vector((0, 0, 0)) * self.scale)
+        z_pos = 0  # lock z
+        vert1 = bm.verts.new(Vector((0, 0, z_pos)) * self.scale)
+        vert2 = bm.verts.new(Vector((width, 0, z_pos)) * self.scale)
+        vert3 = bm.verts.new(Vector((width, -height, z_pos)) * self.scale)
+        vert4 = bm.verts.new(Vector((0, -height, z_pos)) * self.scale)
 
         bm.faces.new([vert1, vert2, vert3, vert4])
 
@@ -339,7 +340,9 @@ class Bonedot_OT_ImportSprites(bpy.types.Operator, ImportHelper):
         for i in self.files:
             filepath = os.path.join(folder, i.name)
             if i.name not in bpy.data.objects:
-                bpy.ops.bonedot.import_sprite(path=filepath)
+                bpy.ops.bonedot.import_sprite(
+                    path=filepath, scale=context.scene.bonedot_scale
+                )
         return {"FINISHED"}
 
     def set_viewport_shading(self, context: Context):

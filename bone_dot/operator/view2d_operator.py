@@ -12,7 +12,7 @@ class Bonedot_OT_SetView2D(bpy.types.Operator):
                 for region in area.regions:
                     if region.type == "WINDOW":
                         bpy.ops.view3d.view_axis(
-                            type="FRONT", align_active=False, relative=False
+                            type="BOTTOM", align_active=False, relative=False
                         )
                         break
         return {"FINISHED"}
