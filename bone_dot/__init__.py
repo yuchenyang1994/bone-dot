@@ -67,7 +67,7 @@ def register():
     classes = get_classes()
     for cls in classes:
         bpy.utils.register_class(cls)
-    bpy.types.Scene.bonedot_scale = bpy.props.IntProperty(
+    bpy.types.Scene.bonedot_scale = bpy.props.FloatProperty(
         name="Scale",
         description="Sprites scale when exporting and Importing",
         default=0.01,
